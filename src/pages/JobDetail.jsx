@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 // import { getJobById } from '../services/jobService';
 import { getJobById } from './../../services/jobService';
+import Loader from '../components/Loader';
 
 
 function JobDetail() {
@@ -14,13 +15,13 @@ function JobDetail() {
         const data = await getJobById(id);
         setJob(data);
       } catch (error) {
-        console.error('Error fetching job:', error);
+        toast.error('Error fetching job:', error);
       }
     };
     fetchJob();
   }, [id]);
 
-  if (!job) return <p className="p-4">Loading job details...</p>;
+  if (!job) return <Loader/>;
 
   return (
     <div className="p-6 max-w-3xl mx-auto">

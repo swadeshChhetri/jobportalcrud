@@ -2,16 +2,22 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllJobs, deleteJob } from "../../services/jobService";
 import { Eye, Pencil, Trash } from "lucide-react";
+import Loader from "../components/Loader";
+import { toast } from "react-toastify";
 
 function JobList() {
   const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchJobs = async () => {
     try {
+      setLoading(true);
       const data = await getAllJobs();
       setJobs(data);
     } catch (error) {
-      console.error("Error fetching jobs:", error);
+      toast.error("Error fetching jobs:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -19,9 +25,10 @@ function JobList() {
     if (!window.confirm("Are you sure you want to delete this job?")) return;
     try {
       await deleteJob(id);
+      toast.success("Job deleted successfully!");
       fetchJobs();
     } catch (error) {
-      console.error("Error deleting job:", error);
+      toast.error("Error deleting job:", error);
     }
   };
 
@@ -32,7 +39,7 @@ function JobList() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">JOB Openings</h2>
+        <h2 className="text-2xl font-bold">JOB Listings</h2>
         <Link
           to="/jobs/add"
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
@@ -40,8 +47,9 @@ function JobList() {
           + Add Job
         </Link>
       </div>
-
-      {jobs.length === 0 ? (
+      {loading ? (
+        <Loader />
+      ) : jobs.length === 0 ? (
         <div className="text-center text-gray-500 mt-16">
           <p className="mb-2 text-lg">🚫 No jobs posted yet.</p>
           <p>

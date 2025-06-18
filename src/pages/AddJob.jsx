@@ -1,23 +1,29 @@
 import JobForm from '../components/JobForm';
 import { useNavigate } from 'react-router-dom';
 import { createJob } from '../../services/jobService';
+import { toast } from 'react-toastify';
 
 function AddJob() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (jobData) => {
     try {
+      setLoading(true);
       await createJob(jobData);
-      navigate('/'); // Redirect after submission
+      toast.success("Job posted successfully!");
+      navigate('/');
     } catch (error) {
-      console.error('Error adding job:', error);
+      toast.error("Failed to post job. Try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="p-4">
       <h2 className="text-2xl font-semibold mb-4">Post a New Job</h2>
-      <JobForm onSubmit={handleSubmit} />
+      <JobForm onSubmit={handleSubmit} loading={loading} />
     </div>
   );
 }

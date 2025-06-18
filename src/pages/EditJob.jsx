@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import JobForm from '../components/JobForm';
 import { getJobById, updateJob } from '../../services/jobService';
+import { toast } from 'react-toastify';
+import Loader from '../components/Loader';
+
 
 function EditJob() {
   const { id } = useParams();
@@ -23,13 +26,14 @@ function EditJob() {
   const handleUpdate = async (updatedJob) => {
     try {
       await updateJob(id, updatedJob);
+      toast.success("Job updated successfully!");
       navigate('/jobs');
     } catch (error) {
-      console.error('Error updating job:', error);
+      toast.error('Error updating job:', error);
     }
   };
 
-  if (!job) return <p className="p-4">Loading...</p>;
+  if (!job) return <Loader/>;
 
   return (
     <div className="p-4">
