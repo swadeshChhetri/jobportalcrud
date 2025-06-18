@@ -7,6 +7,7 @@ function JobForm({ onSubmit, initialJob = {}, loading = false }) {
     location: "",
     description: "",
     salary: "",
+    jobType: "",
     ...initialJob,
   });
 
@@ -75,6 +76,25 @@ function JobForm({ onSubmit, initialJob = {}, loading = false }) {
           className="w-full border px-3 py-2 rounded mt-1"
         />
       </div>
+
+      <div>
+        <label className="block font-medium">Job Type</label>
+        <select
+          name="jobType"
+          value={job.jobType}
+          onChange={handleChange}
+          required
+          className="w-full border px-3 py-2 rounded mt-1"
+        >
+          <option value="">Select Job Type</option>
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+          <option value="Contract">Contract</option>
+          <option value="Internship">Internship</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
       <button
         type="submit"
         disabled={loading}

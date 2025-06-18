@@ -1,7 +1,8 @@
-import JobForm from '../components/JobForm';
-import { useNavigate } from 'react-router-dom';
-import { createJob } from '../../services/jobService';
-import { toast } from 'react-toastify';
+import JobForm from "../components/JobForm";
+import { useNavigate } from "react-router-dom";
+import { createJob } from "../services/jobService";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 function AddJob() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function AddJob() {
       setLoading(true);
       await createJob(jobData);
       toast.success("Job posted successfully!");
-      navigate('/');
+      navigate("/");
     } catch (error) {
       toast.error("Failed to post job. Try again.");
     } finally {

@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import JobForm from '../components/JobForm';
-import { getJobById, updateJob } from '../../services/jobService';
-import { toast } from 'react-toastify';
-import Loader from '../components/Loader';
-
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import JobForm from "../components/JobForm";
+import { getJobById, updateJob } from "../services/jobService";
+import { toast } from "react-toastify";
+import Loader from "../components/Loader";
 
 function EditJob() {
   const { id } = useParams();
@@ -17,7 +16,7 @@ function EditJob() {
         const data = await getJobById(id);
         setJob(data);
       } catch (error) {
-        console.error('Error fetching job:', error);
+        console.error("Error fetching job:", error);
       }
     };
     fetchJob();
@@ -27,13 +26,13 @@ function EditJob() {
     try {
       await updateJob(id, updatedJob);
       toast.success("Job updated successfully!");
-      navigate('/jobs');
+      navigate("/jobs");
     } catch (error) {
-      toast.error('Error updating job:', error);
+      toast.error("Error updating job:", error);
     }
   };
 
-  if (!job) return <Loader/>;
+  if (!job) return <Loader />;
 
   return (
     <div className="p-4">

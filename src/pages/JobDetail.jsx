@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 // import { getJobById } from '../services/jobService';
-import { getJobById } from './../../services/jobService';
-import Loader from '../components/Loader';
-
+import { getJobById } from "../services/jobService";
+import Loader from "../components/Loader";
 
 function JobDetail() {
   const { id } = useParams();
@@ -14,14 +13,15 @@ function JobDetail() {
       try {
         const data = await getJobById(id);
         setJob(data);
+        console.log(data);
       } catch (error) {
-        toast.error('Error fetching job:', error);
+        toast.error("Error fetching job:", error);
       }
     };
     fetchJob();
   }, [id]);
 
-  if (!job) return <Loader/>;
+  if (!job) return <Loader />;
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
@@ -32,6 +32,13 @@ function JobDetail() {
       <div className="bg-white shadow p-4 rounded">
         <h3 className="text-lg font-semibold mb-2">Job Description</h3>
         <p className="text-gray-700 whitespace-pre-line">{job.description}</p>
+
+        {job.jobType && (
+          <div className="mt-4">
+            <h4 className="font-medium">Job Type:</h4>
+            <p className="text-gray-700">{job.jobType}</p>
+          </div>
+        )}
 
         {job.salary && (
           <div className="mt-4">

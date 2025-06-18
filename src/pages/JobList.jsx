@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllJobs, deleteJob } from "../../services/jobService";
+import { getAllJobs, deleteJob } from "../services/jobService";
 import { Eye, Pencil, Trash } from "lucide-react";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
